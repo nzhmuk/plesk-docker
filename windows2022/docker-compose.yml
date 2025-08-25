@@ -1,0 +1,19 @@
+services:
+  plesk:
+    image: plesk/plesk-windows22
+    user: "ContainerAdministrator"
+    isolation: process
+    ports:
+      - "21:21"
+      - "80:80"
+      - "110:110"
+      - "143:143"
+      - "443:443"
+      - "8443:8443"
+      - "8447:8447"
+      - "8880:8880"
+      - "1053:53/tcp"
+      - "1053:53/udp"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4

@@ -1,6 +1,6 @@
 # Plesk the latest available version container
 
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 LABEL maintainer="plesk-dev-leads@plesk.com"
 

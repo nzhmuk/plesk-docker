@@ -1,6 +1,6 @@
 # Plesk the latest available version container
 
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 LABEL maintainer="plesk-dev-leads@plesk.com"
 
@@ -27,16 +27,20 @@ RUN powershell -Command \
     C:\Plesk\bin\init_conf.exe \
     --init \
     -email changeme@example.com \
-    -passwd changeme1Q** \
+    -passwd setup1Q** \
     -allow-weak-passwords \
     -hostname-not-required ; \
     \
     C:\Plesk\bin\license.exe -i $env:LICENSE ; \
     C:\Plesk\bin\settings.exe --set admin_info_not_required=true ; \
     C:\Plesk\bin\settings.exe --set login_timeout=3600 ; \
-    C:\Plesk\bin\poweruser.exe --off
+    C:\Plesk\bin\poweruser.exe --off; \ 
+	C:\Plesk\bin\server_pref -u -min_password_strength very_weak
 
-ADD https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.10/ServiceMonitor.exe C:/ServiceMonitor.exe
+COPY setRegistryPermission.ps1 C:/setRegistryPermission.ps1
+RUN  powershell -ExecutionPolicy Bypass -File C:/setRegistryPermission.ps1
+
+ADD https://github.com/microsoft/IIS.ServiceMonitor/releases/download/v2.0.1.10/ServiceMonitor.exe C:/ServiceMonitor.exe
 
 # Port to expose
 # 21 - ftp
@@ -50,6 +54,6 @@ ADD https://dotnetbinaries.blob.core.windows.net/servicemonitor/2.0.1.10/Service
 # 8880 - plesk via http
 # 8443 - plesk via https
 # 8447 - autoinstaller
-EXPOSE 21 80 443 8880 8443 8447
+EXPOSE 21 25 53 80 110 443 3306 8880 8443 8447
 
 ENTRYPOINT  ["C:\\ServiceMonitor.exe", "w3svc"]

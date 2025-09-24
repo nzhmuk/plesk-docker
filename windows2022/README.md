@@ -32,11 +32,17 @@ To check the version of the base OS image, use the following link: [https://hub.
 
 If the OS version is outdated, you need to install all the latest updates.
 
-# How To install Docker CLI
+# How To install required tools on host
+
+Install Docker
 
     https://learn.microsoft.com/en-us/virtualization/windowscontainers/quick-start/set-up-environment?tabs=dockerce Invoke-WebRequest -UseBasicParsing "https://raw.githubusercontent.com/microsoft/Windows-Containers/Main/helpful_tools/Install-DockerCE/install-docker-ce.ps1" -o install-docker-ce.ps1 .\install-docker-ce.ps1
+
+Install Docker-compose
     
     Start-BitsTransfer -Source "https://github.com/docker/compose/releases/download/v2.39.2/docker-compose-windows-x86_64.exe" -Destination C:\Windows\system32\docker-compose.exe
+
+Install Git
     
     choco install git -y
 
